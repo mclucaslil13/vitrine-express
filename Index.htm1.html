@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vitrine Express — Premium</title>
+<style>
+:root{--bg:#090909;--card:#151515;--line:#292929;--accent:#ffd400;--muted:#aaa}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#080808,#181818);color:#fff;font-family:Inter,Arial,sans-serif}
+.wrap{max-width:920px;margin:auto;padding:24px}.hero{padding:30px 0 12px}h1{font-size:42px;margin:0 0 8px}.hero p{color:var(--muted);font-size:18px}
+.badge{display:inline-block;background:var(--accent);color:#111;padding:7px 12px;border-radius:999px;font-weight:800;font-size:13px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.card{background:rgba(21,21,21,.95);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 15px 50px #0005}
+input,select,textarea{width:100%;margin-top:8px;padding:13px;border:1px solid #3a3a3a;border-radius:11px;background:#0d0d0d;color:#fff;font-size:15px}
+label{display:block;margin:12px 0;color:#ddd;font-weight:700}button{border:0;border-radius:11px;padding:13px 17px;background:var(--accent);color:#111;font-weight:900;cursor:pointer}
+.secondary{background:#2a2a2a;color:#fff}.result{background:#0b0b0b;border:1px solid #303030;border-radius:14px;padding:16px;min-height:230px;white-space:pre-wrap;line-height:1.55}
+.plans{display:grid;gap:10px}.plan{padding:15px;border:1px solid #333;border-radius:14px}.plan strong{font-size:20px}.price{font-size:28px;font-weight:900;color:var(--accent);margin:5px 0}.small{font-size:13px;color:#999}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.row button{flex:1}
+ul{padding-left:20px;color:#ccc;line-height:1.7}
+@media(max-width:720px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <section class="hero">
+  <span class="badge">VITRINE EXPRESS</span>
+  <h1>Venda melhor com textos prontos.</h1>
+  <p>Crie anúncios para WhatsApp, Instagram, Facebook e Stories em poucos segundos.</p>
+ </section>
+
+ <div class="grid">
+  <section class="card">
+   <h2>Gerador de anúncio</h2>
+   <label>Nome do negócio<input id="business" placeholder="Ex.: Barbearia do Lucas"></label>
+   <label>Produto ou serviço<input id="product" placeholder="Ex.: Corte + barba"></label>
+   <label>Preço<input id="price" placeholder="Ex.: R$ 35,00"></label>
+   <label>Canal<select id="channel"><option>WhatsApp</option><option>Instagram</option><option>Facebook</option><option>Story</option></select></label>
+   <label>Informações extras<textarea id="details" rows="4" placeholder="Promoção, endereço, horário, telefone..."></textarea></label>
+   <div class="row"><button onclick="generate()">Gerar texto</button><button class="secondary" onclick="copyText()">Copiar</button></div>
+  </section>
+
+  <aside class="card">
+   <h2>Planos</h2>
+   <div class="plans">
+    <div class="plan"><strong>Grátis</strong><div class="price">R$ 0</div><div class="small">Para experimentar</div><ul><li>Geração de textos</li><li>Uso básico</li></ul></div>
+    <div class="plan"><strong>Premium</strong><div class="price">R$ 19,90/mês</div><div class="small">Preço demonstrativo — configure antes de vender</div><ul><li>Mais modelos</li><li>Biblioteca de campanhas</li><li>Recursos exclusivos</li></ul><button onclick="alert('Pagamento ainda não conectado. Próximo passo: integrar um provedor de pagamento.')">Assinar Premium</button></div>
+   </div>
+  </aside>
+ </div>
+
+ <section class="card" style="margin-top:18px">
+  <h2>Seu anúncio</h2><div id="result" class="result">Preencha os campos acima e toque em “Gerar texto”.</div>
+ </section>
+ <p class="small">Versão demonstrativa. Antes de comercializar, configure pagamento, autenticação, política de privacidade, termos de uso e atendimento ao consumidor.</p>
+</div>
+
+<script>
+function generate(){
+ const b=document.getElementById('business').value.trim()||'Seu negócio';
+ const p=document.getElementById('product').value.trim()||'nosso produto ou serviço';
+ const price=document.getElementById('price').value.trim();
+ const c=document.getElementById('channel').value;
+ const d=document.getElementById('details').value.trim();
+ let s=`🔥 ${b.toUpperCase()}\\n\\n`;
+ s+=`✨ ${p}${price?` por ${price}`:''}!\\n\\n`;
+ s+=`Aproveite esta oportunidade e fale com a gente para saber mais.`;
+ if(d)s+=`\\n\\n📌 ${d}`;
+ s+=`\\n\\n📲 Chame no WhatsApp e faça seu pedido/orçamento.`;
+ s+=`\\n\\n📣 Divulgação preparada para ${c}.`;
+ document.getElementById('result').textContent=s;
+}
+async function copyText(){
+ const t=document.getElementById('result').textContent;
+ if(t.startsWith('Preencha')) return alert('Gere um anúncio primeiro.');
+ await navigator.clipboard.writeText(t); alert('Texto copiado!');
+}
+</script>
+</body></html>
